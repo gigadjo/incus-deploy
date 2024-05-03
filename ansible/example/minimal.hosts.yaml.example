@@ -12,6 +12,7 @@ hosts:
           #user used to connect using ssh
           ansible_become: 
           #used to gain root privileges (no | true)
+          incus_name: My-Name
           incus_init:
             network:
               LOCAL:
@@ -42,6 +43,7 @@ hosts:
           #user used to connect using ssh
           ansible_become: 
           #used to gain root privileges (no | true)
+          incus_name: My-Name
           incus_init:
             network:
               LOCAL:
@@ -73,6 +75,7 @@ hosts:
           #user used to connect using ssh
           ansible_become: 
           #used to gain root privileges (no | true)
+          incus_name: My-Name
           incus_init:
             network:
               LOCAL:

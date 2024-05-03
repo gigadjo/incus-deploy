@@ -13,8 +13,6 @@ Install the required ceph packages for ansible on the controller, on Debian that
 ```
 apt install --no-install-recommends ceph-base ceph-common
 ```
-Version required : reef
-
 Install instructions : [Ceph Doc](https://docs.ceph.com/en/latest/install/get-packages/)
 
 
@@ -50,7 +48,23 @@ Run the Playbooks:
 ansible-playbook deploy.yaml
 ```
 
-## How to use in prod, for newbees : 
+In case of failure : 
+
+```
+cd /terraform
+tofu destroy
+rm ../ansible/data/ceph/*
+rm ../ansible/data/ovn/*
+tofu init
+```
+
+Some files must be deleted, before you can try to deploy again : 
+
+/ansible/data/ceph/*
+/ansible/data/ovn/*
+
+
+## How to use in prod, for newbies : 
 
 ### Out of the box, ansible look for : 
 
@@ -75,7 +89,11 @@ An empty disk on each server, for 'local storage' :
 
 One can edit hosts.yaml.example to fit his needs : 
 
-First of all, use uuidgen to generate a unique UUID for your deployment, and remplace it in hosts.yaml.
+First of all, use uuidgen to generate a unique UUID for your deployment, and remplace it in hosts.yaml : 
+
+  - ceph_fsid: "e2850e1f-7aab-472e-b6b1-824e19a75071"
+
+Must be changed and be unique per deployment.
 
   ### Baremetal vars : 
 
@@ -111,7 +129,7 @@ Must be changed to fit, two interfaces of each of your servers. Else you are usi
   - network: ipv4.gateway: "172.31.254.1/24" / ipv6.gateway: "fd00:1e4d:637d:1234::1/64" / ipv4.ovn.ranges: "172.31.254.10-172.31.254.254" / dns.nameservers: "1.1.1.1,1.0.0.1"
 
 
-Might be changed to fit your network plugged on 'enp6s0/eth2' network card. DHCP Must be running on network.
+Might be changed to fit the network 'enp6s0/eth2' network card is plugged on. DHCP Must be running on this network.
 
   - storage: local: driver: zfs
 
@@ -122,7 +140,7 @@ Used to define "local" storage pool on target servers, driver can be changed if 
   - storage: local: local_config: source: "/dev/disk/by-id/nvme-QEMU_NVMe_Ctrl_incus_disk3"
 
 
-Used to define source for local storage pool. Can be either a drive, or a directory.
+Used to define source for local storage pool on every server. Can be either a drive, or a directory.
 
 
   ### hosts vars : 

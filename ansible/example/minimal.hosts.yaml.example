@@ -1,6 +1,6 @@
 #minimal inventory file : installs incus clustered + ui on every host !
 
-hosts:
+      hosts:
       #hosts definition
         server01:
         #server01 vars

@@ -2,6 +2,8 @@
 
       hosts:
       #hosts definition
+
+
         server01:
         #server01 vars
           ansible_host:

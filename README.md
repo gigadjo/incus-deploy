@@ -51,6 +51,14 @@ destroy`), you need to make sure to also clear any local state from the
 connection to the previously deployed systems which will cause the
 deployment to get stuck.
 
+```
+cd ../terraform
+tofu destroy
+rm ../ansible/data/ceph/*
+rm ../ansible/data/ovn/*
+tofu init
+```
+
 ## Deploying against production systems
 ### Requirements (when using Incus with both Ceph and OVN)
 

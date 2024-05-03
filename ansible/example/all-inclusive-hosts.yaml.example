@@ -3,6 +3,8 @@
 
 #comments in this file explains brievly what to do
 
+#ALL POSSIBLE OPTIONS SUPPORTED BY incus-ansible.
+
 all:
   vars:
     ceph_fsid: "e2850e1f-7aab-472e-b6b1-824e19a75071"
@@ -24,7 +26,7 @@ all:
         ansible_user: 
         #user used to connect using ssh
         ansible_become: 
-        #used to gain root privileges (no | true)
+        #should I gain root privileges to run commands (no | true)
         ceph_roles:
         #ceph roles to configure on ALL servers
           - client
@@ -95,7 +97,8 @@ all:
 
 #GLOBAL Settings may be modified per chassis basis.
 #some settings are "hardware" related (such as hard drives) and/or must be set per server.
-#can be usefull in case of "custom setup"
+#Ansibles ADDS Global + Host vars (if absent)
+
 
 
           

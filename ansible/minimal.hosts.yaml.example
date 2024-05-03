@@ -1,0 +1,93 @@
+#minimal inventory file : installs incus clustered + ui on every host !
+
+hosts:
+      #hosts definition
+        server01:
+        #server01 vars
+          ansible_host:
+          #IP address for this host
+          ansible_connection: 
+          #which connection mode to use (ssh | incus)
+          ansible_user: 
+          #user used to connect using ssh
+          ansible_become: 
+          #used to gain root privileges (no | true)
+          incus_init:
+            network:
+              LOCAL:
+                type: macvlan
+                local_config:
+                  parent: enp5s0
+                default: true
+            storage:
+              local:
+                driver: zfs
+                local_config:
+                  source: "/dev/disk/by-id/disk_name"
+                default: true
+          incus_ip_address: 
+          #select ip address to bind Incus to.
+          incus_roles: 
+            - cluster
+            - ui
+
+
+        server02:
+        #server02 vars
+          ansible_host:
+          #IP address for this host
+          ansible_connection: 
+          #which connection mode to use (ssh | incus)
+          ansible_user: 
+          #user used to connect using ssh
+          ansible_become: 
+          #used to gain root privileges (no | true)
+          incus_init:
+            network:
+              LOCAL:
+                type: macvlan
+                local_config:
+                  parent: enp5s0
+                default: true
+            storage:
+              local:
+                driver: zfs
+                local_config:
+                  source: "/dev/disk/by-id/disk_name"
+                default: true
+          incus_ip_address: 
+          #select ip address to bind Incus to.
+          incus_roles: 
+            - cluster
+            - ui
+
+
+
+        server03:
+        #server03 vars
+          ansible_host:
+          #IP address for this host
+          ansible_connection: 
+          #which connection mode to use (ssh | incus)
+          ansible_user: 
+          #user used to connect using ssh
+          ansible_become: 
+          #used to gain root privileges (no | true)
+          incus_init:
+            network:
+              LOCAL:
+                type: macvlan
+                local_config:
+                  parent: enp5s0
+                default: true
+            storage:
+              local:
+                driver: zfs
+                local_config:
+                  source: "/dev/disk/by-id/disk_name"
+                default: true
+          incus_ip_address: 
+          #select ip address to bind Incus to.
+          incus_roles: 
+            - cluster
+            - ui

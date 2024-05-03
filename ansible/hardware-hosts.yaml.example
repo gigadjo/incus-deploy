@@ -1,0 +1,294 @@
+all:
+  vars:
+    ceph_fsid: "e2850e1f-7aab-472e-b6b1-824e19a75071"
+    #First of all, use uuidgen to generate a unique UUID for your deployment, and remplace it
+    ceph_rbd_cache: "2048Mi"
+    ceph_rbd_cache_max: "1792Mi"
+    ceph_rbd_cache_target: "1536Mi"
+    #Ceph cache config : https://docs.ceph.com/en/latest/rbd/rbd-config-ref/
+    incus_name: "my-metal-cluster"
+    #have to be changed
+    ovn_name: "my-metal-network"
+    #have to be changed
+  children:
+    baremetal:
+      vars:
+      #those are global variables, applied to ALL SERVERS : 
+        ansible_connection: 
+        #which connection mode to use (ssh | incus)
+        ansible_user: 
+        #user used to connect using ssh
+        ansible_become: 
+        #used to gain root privileges (no | true)
+        ceph_roles:
+        #ceph roles to configure on ALL servers
+          - client
+          - mon
+          - mds
+          - mgr
+          - osd
+          - rbd-mirror
+          - rgw
+        ceph_disks:
+        #ceph disk to configure on ALL servers (data | db : /dev/disk/by-id/xxxxxxxx)
+          - data: nvme-QEMU_NVMe_Ctrl_incus_disk1
+          - data: nvme-QEMU_NVMe_Ctrl_incus_disk2
+          - db: 
+        ceph_keyrings: 
+        ceph_network_private:
+        ceph_network_public:
+        ceph_release:
+        ovn_az_name:
+        ovn_release: 
+        ovn_roles:
+          - central
+          - host
+          - ic
+          - ic-db
+          - ic-gateway
+        incus_init:
+        #Incus Init settings to use on ALL servers
+          network:
+            LOCAL:
+              type: macvlan
+              local_config:
+                parent: enp5s0
+            UPLINK:
+              type: physical
+              config:
+                ipv4.gateway: "172.31.254.1/24"
+                ipv6.gateway: "fd00:1e4d:637d:1234::1/64"
+                ipv4.ovn.ranges: "172.31.254.10-172.31.254.254"
+                dns.nameservers: "1.1.1.1,1.0.0.1"
+              local_config:
+                parent: enp6s0
+            default:
+              type: ovn
+              config:
+                network: UPLINK
+              default: true
+          storage:
+            local:
+              driver: zfs | btrfs | dir
+              local_config:
+                source: "/dev/disk/by-id/disk_name"
+            remote:
+              driver: ceph
+              local_config:
+                source: "incus_{{ incus_name }}"
+              default: true
+        incus_release: daily | stable | lts-6.0
+        incus_roles: 
+          - standalone
+          - cluster
+          - ui
+
+          
+      hosts:
+      #hosts definition
+        server01:
+        #server01 vars
+          ansible_host: 
+          ansible_connection: 
+          ansible_user: 
+          ansible_become: 
+          ceph_roles:
+            - client
+            - mon
+            - mds
+            - mgr
+            - osd
+            - rbd-mirror
+            - rgw
+          ceph_disks:
+            - data: nvme-QEMU_NVMe_Ctrl_incus_disk1
+            - data: nvme-QEMU_NVMe_Ctrl_incus_disk2
+            - db: 
+          ceph_ip_address: 
+          ceph_keyrings: 
+          ceph_network_private:
+          ceph_network_public:
+          ceph_release:
+          ovn_ip_address:
+          ovn_az_name:
+          ovn_release: 
+          ovn_roles:
+            - central
+            - host
+            - ic
+            - ic-db
+            - ic-gateway
+          incus_init:
+            network:
+              LOCAL:
+                type: macvlan
+                local_config:
+                  parent: enp5s0
+              UPLINK:
+                type: physical
+                config:
+                  ipv4.gateway: "172.31.254.1/24"
+                  ipv6.gateway: "fd00:1e4d:637d:1234::1/64"
+                  ipv4.ovn.ranges: "172.31.254.10-172.31.254.254"
+                  dns.nameservers: "1.1.1.1,1.0.0.1"
+                local_config:
+                  parent: enp6s0
+              default:
+                type: ovn
+                config:
+                  network: UPLINK
+                default: true
+            storage:
+              local:
+                driver: zfs | btrfs | dir
+                local_config:
+                  source: "/dev/disk/by-id/disk_name"
+              remote:
+                driver: ceph
+                local_config:
+                  source: "incus_{{ incus_name }}"
+                default: true
+          incus_ip_address: 
+          incus_release: daily | stable | lts-6.0
+          incus_roles: 
+            - standalone
+            - cluster
+            - ui
+
+             
+        server02:
+        #server02 vars
+          ansible_connection: 
+          ansible_user: 
+          ansible_become: 
+          ceph_roles:
+            - client
+            - mon
+            - mds
+            - mgr
+            - osd
+            - rbd-mirror
+            - rgw
+          ceph_disks:
+            - data: nvme-QEMU_NVMe_Ctrl_incus_disk1
+            - data: nvme-QEMU_NVMe_Ctrl_incus_disk2
+            - db: 
+          ceph_ip_address: 
+          ceph_keyrings: 
+          ceph_network_private:
+          ceph_network_public:
+          ceph_release:
+          ovn_ip_address:
+          ovn_az_name:
+          ovn_release: 
+          ovn_roles:
+            - central
+            - host
+            - ic
+            - ic-db
+            - ic-gateway
+          incus_init:
+            network:
+              LOCAL:
+                type: macvlan
+                local_config:
+                  parent: enp5s0
+              UPLINK:
+                type: physical
+                config:
+                  ipv4.gateway: "172.31.254.1/24"
+                  ipv6.gateway: "fd00:1e4d:637d:1234::1/64"
+                  ipv4.ovn.ranges: "172.31.254.10-172.31.254.254"
+                  dns.nameservers: "1.1.1.1,1.0.0.1"
+                local_config:
+                  parent: enp6s0
+              default:
+                type: ovn
+                config:
+                  network: UPLINK
+                default: true
+            storage:
+              local:
+                driver: zfs | btrfs | dir
+                local_config:
+                  source: "/dev/disk/by-id/disk_name"
+              remote:
+                driver: ceph
+                local_config:
+                  source: "incus_{{ incus_name }}"
+                default: true
+          incus_ip_address: 
+          incus_release: daily | stable | lts-6.0
+          incus_roles: 
+            - standalone
+            - cluster
+            - ui
+             
+        server03:
+        #server03 vars
+          ansible_host: 
+          ansible_connection: 
+          ansible_user: 
+          ansible_become: 
+          ceph_roles:
+            - client
+            - mon
+            - mds
+            - mgr
+            - osd
+            - rbd-mirror
+            - rgw
+          ceph_disks:
+            - data: nvme-QEMU_NVMe_Ctrl_incus_disk1
+            - data: nvme-QEMU_NVMe_Ctrl_incus_disk2
+            - db: 
+          ceph_ip_address: 
+          ceph_keyrings: 
+          ceph_network_private:
+          ceph_network_public:
+          ceph_release:
+          ovn_ip_address:
+          ovn_az_name:
+          ovn_release: 
+          ovn_roles:
+            - central
+            - host
+            - ic
+            - ic-db
+            - ic-gateway
+          incus_init:
+            network:
+              LOCAL:
+                type: macvlan
+                local_config:
+                  parent: enp5s0
+              UPLINK:
+                type: physical
+                config:
+                  ipv4.gateway: "172.31.254.1/24"
+                  ipv6.gateway: "fd00:1e4d:637d:1234::1/64"
+                  ipv4.ovn.ranges: "172.31.254.10-172.31.254.254"
+                  dns.nameservers: "1.1.1.1,1.0.0.1"
+                local_config:
+                  parent: enp6s0
+              default:
+                type: ovn
+                config:
+                  network: UPLINK
+                default: true
+            storage:
+              local:
+                driver: zfs | btrfs | dir
+                local_config:
+                  source: "/dev/disk/by-id/disk_name"
+              remote:
+                driver: ceph
+                local_config:
+                  source: "incus_{{ incus_name }}"
+                default: true
+          incus_ip_address: 
+          incus_release: daily | stable | lts-6.0
+          incus_roles: 
+            - standalone
+            - cluster
+            - ui
